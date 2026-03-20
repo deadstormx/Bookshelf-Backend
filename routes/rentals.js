@@ -1,35 +1,3 @@
-// const express = require("express");
-// const Rental = require("../models/Rental");
-// const Book = require("../models/Book");
-// const { protect } = require("../middleware/auth");
-
-// const router = express.Router();
-
-// router.post("/", protect, async (req, res) => {
-//   const { bookId, rentalDays } = req.body;
-
-//   const book = await Book.findById(bookId);
-//   if (!book || !book.inStock || !book.rentAvailable) {
-//     return res.status(400).json({ message: "Book not available" });
-//   }
-
-//   const pricePerDay = 5;
-//   const totalAmount = pricePerDay * rentalDays;
-
-//   const rental = await Rental.create({
-//     user: req.user._id,
-//     book: bookId,
-//     rentalDays,
-//     pricePerDay,
-//     totalAmount,
-//     returnDate: new Date(Date.now() + rentalDays * 86400000)
-//   });
-
-//   res.status(201).json(rental);
-// });
-
-// module.exports = router;
-
 const express = require("express");
 const Rental = require("../models/Rental");
 const { protect, adminOnly } = require("../middleware/auth");
