@@ -77,7 +77,33 @@ const profileStorage = new CloudinaryStorage({
   },
 });
 
-const uploadBook    = multer({ storage: bookStorage });
-const uploadProfile = multer({ storage: profileStorage });
+// Storage for citizenship documents (rental verification)
+const citizenshipStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder:         "bookshelf/citizenship_docs",
+    allowed_formats: ["jpg", "jpeg", "png", "webp", "pdf"],
+    resource_type:  "auto",
+  },
+});
 
-module.exports = { cloudinary, uploadBook, uploadBookImage: uploadBook, uploadProfile, uploadProfileImage: uploadProfile };
+const uploadBook         = multer({ storage: bookStorage });
+const uploadProfile      = multer({ storage: profileStorage });
+const uploadCitizenship  = multer({ storage: citizenshipStorage });
+
+module.exports = {
+  cloudinary,
+  uploadBook,
+  uploadBookImage: uploadBook,
+  uploadProfile,
+  uploadProfileImage: uploadProfile,
+  uploadCitizenship,
+  uploadCitizenshipDoc: uploadCitizenship,
+};
+
+
+
+
+
+
+
