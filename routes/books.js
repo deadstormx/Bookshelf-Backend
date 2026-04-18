@@ -28,7 +28,7 @@ router.get("/:id", async (req, res) => {
   try {
     const book = await Book.findById(req.params.id)
       .populate("genre")
-      .populate("reviews.user", "name");
+      .populate("reviews.user", "name profileImage");
     if (!book) return res.status(404).json({ message: "Book not found" });
     res.json(book);
   } catch (e) { res.status(500).json({ message: e.message }); }
@@ -109,7 +109,7 @@ router.post("/:id/reviews", protect, async (req, res) => {
     book.rating = parseFloat((total / book.reviews.length).toFixed(1));
 
     await book.save();
-    const updated = await Book.findById(book._id).populate("genre");
+    const updated = await Book.findById(book._id).populate("genre").populate("reviews.user", "name profileImage");
     res.status(201).json(updated);
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
