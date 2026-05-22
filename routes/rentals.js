@@ -117,7 +117,7 @@ router.get("/", protect, adminOnly, async (req, res) => {
 // ── PUT /api/rentals/:id/status — Admin Approve/Reject ───────────────────────
 router.put("/:id/status", protect, adminOnly, async (req, res) => {
   try {
-    const { status, rejectionReason } = req.body;
+    const { status, reason, rejectionReason } = req.body;
     if (!["approved","rejected"].includes(status))
       return res.status(400).json({ message: "Status must be approved or rejected" });
 
@@ -130,7 +130,7 @@ router.put("/:id/status", protect, adminOnly, async (req, res) => {
       rental.rentalStatus = "approved"; // Wait for payment, not active yet
     } else {
       rental.rentalStatus = "rejected";
-      rental.rejectionReason = rejectionReason || "Your rental request did not meet our requirements.";
+      rental.rejectionReason = reason || rejectionReason || "Your rental request did not meet our requirements.";
     }
     await rental.save();
 
