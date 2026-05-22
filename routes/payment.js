@@ -6,7 +6,7 @@ const { protect } = require("../middleware/auth");
 
 const KHALTI_SECRET_KEY = process.env.KHALTI_SECRET_KEY;
 const KHALTI_API        = "https://dev.khalti.com/api/v2";
-const FRONTEND_URL      = "http://localhost:3000";
+const FRONTEND_URL      = process.env.FRONTEND_URL || "http://localhost:3000";
 
 // ── POST /api/payment/initiate ────────────────────────────────────────────────
 router.post("/initiate", protect, async (req, res) => {

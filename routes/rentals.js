@@ -21,7 +21,7 @@ const upload = multer({ storage: citizenshipStorage }).fields([
 const FINE_PER_DAY      = 5;
 const SECURITY_DEPOSIT  = 500;
 const KHALTI_API        = "https://dev.khalti.com/api/v2";
-const FRONTEND_URL      = "http://localhost:3000";
+const FRONTEND_URL      = process.env.FRONTEND_URL || "http://localhost:3000";
 
 // ── POST /api/rentals — Create rental request ─────────────────────────────────
 router.post("/", protect, upload, async (req, res) => {
