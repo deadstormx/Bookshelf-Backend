@@ -28,6 +28,9 @@ router.post("/google", async (req, res) => {
     const ticket = await gClient.verifyIdToken({ idToken: credential, audience: process.env.GOOGLE_CLIENT_ID });
     const { email, name, picture } = ticket.getPayload();
     let user = await User_g.findOne({ email });
+     if (user && user.isDeleted) {
+    return res.status(400).json({ message: "This account has been deleted." });
+  }
     if (!user) {
       const hashed = await bcrypt_g.hash(email + process.env.JWT_SECRET, 10);
       user = await User_g.create({ name, email, password: hashed, profileImage: picture, isVerified: true });

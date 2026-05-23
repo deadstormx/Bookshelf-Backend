@@ -134,6 +134,18 @@ exports.registerUser = async (req, res) => {
     if (!user.otpVerified) {
       return res.status(400).json({ message: "Email not verified. Please complete OTP first." });
     }
+  
+// ── Block deleted accounts ──
+if (user.isDeleted) {
+  return res.status(400).json({ message: "This account has been deleted." });
+}
+
+// ── Block blocked accounts ──
+if (user.isBlocked) {
+  return res.status(403).json({ message: "Your account has been blocked. Please contact support." });
+}
+
+const isMatch = await bcrypt.compare(password, user.password);
 
     const salt = await bcrypt.genSalt(10);
     user.name = name;
